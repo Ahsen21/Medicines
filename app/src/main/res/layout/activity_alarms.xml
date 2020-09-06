@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SetAlarms">
+
+    <LinearLayout
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="32dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <TextView
+            android:id="@+id/alarm_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/daily_alarms"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            android:onClick="addNewAlarm"
+            android:text="@string/add" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/alarm_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/heading"
+        android:padding="16dp"
+        android:scrollbars="vertical" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/morning_alarm"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/morning_alarm"-->
+<!--        android:textColor="#000000"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/enter_time_1"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/alarm_heading"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/enter_time_1" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/enter_time_1"-->
+<!--        android:layout_width="110dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="32dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:autofillHints="@string/alarm_hint"-->
+<!--        android:ems="10"-->
+<!--        android:hint="@string/alarm_hint"-->
+<!--        android:inputType="time"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/morning_alarm"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/add_button" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/morning_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:onClick="setTime"-->
+<!--        android:text="@string/set_alarm"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/enter_time_1"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/alarm_heading" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/afternoon_alarm"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/afternoon_alarm"-->
+<!--        android:textColor="#000000"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/enter_time_2"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/morning_alarm"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/enter_time_2" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/enter_time_2"-->
+<!--        android:layout_width="110dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:autofillHints="@string/alarm_hint"-->
+<!--        android:ems="10"-->
+<!--        android:hint="@string/alarm_hint"-->
+<!--        android:inputType="time"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/afternoon_alarm"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/enter_time_1" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/afternoon_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:onClick="setTime"-->
+<!--        android:text="@string/set_alarm"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/enter_time_2"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/morning_button" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/evening_alarm"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/evening_alarm"-->
+<!--        android:textColor="#000000"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/enter_time_3"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/afternoon_alarm"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/enter_time_3" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/enter_time_3"-->
+<!--        android:layout_width="110dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="34dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:autofillHints="@string/alarm_hint"-->
+<!--        android:ems="10"-->
+<!--        android:hint="@string/alarm_hint"-->
+<!--        android:inputType="time"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/evening_alarm"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/enter_time_2" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/evening_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:onClick="setTime"-->
+<!--        android:text="@string/set_alarm"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/enter_time_3"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/afternoon_button" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/night_alarm"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/night_alarm"-->
+<!--        android:textColor="#000000"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/enter_time_4"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/evening_alarm"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/enter_time_4" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/enter_time_4"-->
+<!--        android:layout_width="110dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="52dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:autofillHints="@string/alarm_hint"-->
+<!--        android:ems="10"-->
+<!--        android:hint="@string/alarm_hint"-->
+<!--        android:inputType="time"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/night_alarm"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/enter_time_3" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/night_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:onClick="setTime"-->
+<!--        android:text="@string/set_alarm"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/enter_time_4"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/evening_button" />-->
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="#FFFFFF"
+        app:itemTextColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/navigation" />
+
+</RelativeLayout>

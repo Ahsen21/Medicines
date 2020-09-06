@@ -1,0 +1,80 @@
+<resources>
+    <string name="app_name">Medicines</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="add_new_item">Add New Item</string>
+    <string name="add_new">Add new</string>
+    <string name="name_heading">Medicine Name:</string>
+    <string name="heading">Fill out the details for the medicine you would like to add.</string>
+    <string name="name_value">Medicine name</string>
+    <string name="dosage_heading">Dosage:</string>
+    <string name="morning_heading">Morning Medicines</string>
+    <string name="afternoon_heading">Afternoon Medicines</string>
+    <string name="evening_heading">Evening Medicines</string>
+    <string name="night_heading">Night Medicines</string>
+    <string name="morning_value">Morning dosage</string>
+    <string name="afternoon_value">Afternoon dosage</string>
+    <string name="evening_value">Evening dosage</string>
+    <string name="night_value">Night dosage</string>
+    <string name="ok">OK</string>
+    <string name="activity2_name">New Medicine</string>
+    <string name="medicine_name">Medicine Name</string>
+    <string name="dosages">Dosages</string>
+    <string name="cancel">Cancel</string>
+    <string name="info">Click the button to add medicines to the list. Swipe left on a
+        medicine to edit it, swipe right to delete it.</string>
+    <string name="medicines">Medicines</string>
+    <string name="alarms">Alarms</string>
+    <string name="clear_all">Clear All</string>
+    <string name="more">More</string>
+    <string name="activity3_name">Alarms</string>
+    <string name="morning_alarm">Morning alarm:</string>
+    <string name="afternoon_alarm">Afternoon alarm:</string>
+    <string name="evening_alarm">Evening alarm:</string>
+    <string name="night_alarm">Night alarm:</string>
+    <string name="set_alarm">Set alarm</string>
+    <string name="daily_alarms">Daily Alarms</string>
+    <string name="activity1_name">Medicine List</string>
+    <string name="home">Home</string>
+    <string name="alarm_hint">Set a time</string>
+    <string name="new_alarm_heading">Set the name and time for your new alarm</string>
+    <string name="alarm_name">Alarm Name:</string>
+    <string name="pick_a_time">Pick a time</string>
+    <string name="time_goes_here">Time goes here</string>
+    <string name="add">Add</string>
+    <string name="morning_icon">Morning icon</string>
+    <string name="m">M</string>
+    <string name="t">T</string>
+    <string name="w">W</string>
+    <string name="th">Th</string>
+    <string name="f">F</string>
+    <string name="s">S</string>
+    <string name="su">Su</string>
+    <string name="update">Update</string>
+    <string name="dosage">Dosage</string>
+    <string name="days_heading">Days:</string>
+    <string name="morning_arrow">Morning arrow</string>
+
+    <string-array name="labels_array">
+        <item> </item>
+        <item>Morning</item>
+        <item>Afternoon</item>
+        <item>Evening</item>
+        <item>Night</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="medicine_units">
+        <item> </item>
+        <item>tab(s)</item>
+        <item>mL</item>
+        <item>tbsp</item>
+        <item>drop(s)</item>
+        <item>mg</item>
+    </string-array>
+</resources>

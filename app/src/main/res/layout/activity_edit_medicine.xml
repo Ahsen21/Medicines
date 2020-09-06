@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditMedicine">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/name_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/name_heading"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/name_value"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/name_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:autofillHints="@string/name_value"
+                android:ems="10"
+                android:hint="@string/name_value"
+                android:inputType="textPersonName"
+                android:textAllCaps="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.159"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name_heading" />
+
+            <TextView
+                android:id="@+id/dosage_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/dosage_heading"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name_value" />
+
+            <TextView
+                android:id="@+id/morning_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/morning_heading"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/morning_value"
+                app:layout_constraintStart_toStartOf="@+id/dosage_heading"
+                app:layout_constraintTop_toTopOf="@+id/morning_value" />
+
+            <EditText
+                android:id="@+id/morning_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints="@string/morning_value"
+                android:ems="4"
+                android:hint="@string/dosage"
+                android:inputType="numberSigned|numberDecimal|number"
+                app:layout_constraintStart_toEndOf="@+id/morning_heading"
+                app:layout_constraintTop_toBottomOf="@+id/dosage_heading" />
+
+            <Spinner
+                android:id="@+id/morning_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintBottom_toBottomOf="@+id/morning_value"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/morning_value"
+                app:layout_constraintTop_toTopOf="@+id/morning_value" />
+
+            <TextView
+                android:id="@+id/afternoon_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/afternoon_heading"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/afternoon_value"
+                app:layout_constraintStart_toStartOf="@+id/morning_heading"
+                app:layout_constraintTop_toTopOf="@+id/afternoon_value" />
+
+            <EditText
+                android:id="@+id/afternoon_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:autofillHints="@string/afternoon_value"
+                android:ems="4"
+                android:hint="@string/dosage"
+                android:inputType="numberSigned|numberDecimal|number"
+                app:layout_constraintStart_toEndOf="@+id/afternoon_heading"
+                app:layout_constraintTop_toBottomOf="@+id/morning_value" />
+
+            <Spinner
+                android:id="@+id/afternoon_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintBottom_toBottomOf="@+id/afternoon_value"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/afternoon_value"
+                app:layout_constraintTop_toTopOf="@+id/afternoon_value" />
+
+            <TextView
+                android:id="@+id/evening_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/evening_heading"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/evening_value"
+                app:layout_constraintStart_toStartOf="@+id/afternoon_heading"
+                app:layout_constraintTop_toTopOf="@+id/evening_value" />
+
+            <EditText
+                android:id="@+id/evening_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="16dp"
+                android:autofillHints="@string/evening_value"
+                android:ems="4"
+                android:hint="@string/dosage"
+                android:inputType="numberSigned|numberDecimal|number"
+                app:layout_constraintStart_toEndOf="@+id/evening_heading"
+                app:layout_constraintTop_toBottomOf="@+id/afternoon_value" />
+
+            <Spinner
+                android:id="@+id/evening_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintBottom_toBottomOf="@+id/evening_value"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/evening_value"
+                app:layout_constraintTop_toTopOf="@+id/evening_value" />
+
+            <TextView
+                android:id="@+id/night_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/night_heading"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/night_value"
+                app:layout_constraintStart_toStartOf="@+id/evening_heading"
+                app:layout_constraintTop_toTopOf="@+id/night_value" />
+
+            <EditText
+                android:id="@+id/night_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="16dp"
+                android:autofillHints="@string/night_value"
+                android:ems="4"
+                android:hint="@string/dosage"
+                android:inputType="numberSigned|numberDecimal|number"
+                app:layout_constraintStart_toEndOf="@+id/night_heading"
+                app:layout_constraintTop_toBottomOf="@+id/evening_value" />
+
+            <Spinner
+                android:id="@+id/night_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintBottom_toBottomOf="@+id/night_value"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/night_value"
+                app:layout_constraintTop_toTopOf="@+id/night_value" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/days_heading"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/night_heading"
+                app:layout_constraintTop_toBottomOf="@+id/night_heading" />
+
+            <LinearLayout
+                android:id="@+id/checkboxes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@id/textView">
+
+                <CheckBox
+                    android:id="@+id/checkBox1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.14"
+                    android:checked="true"
+                    android:text="@string/m" />
+
+                <CheckBox
+                    android:id="@+id/checkBox2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.14"
+                    android:checked="true"
+                    android:text="@string/t" />
+
+                <CheckBox
+                    android:id="@+id/checkBox3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.14"
+                    android:checked="true"
+                    android:text="@string/w" />
+
+                <CheckBox
+                    android:id="@+id/checkBox4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.14"
+                    android:checked="true"
+                    android:text="@string/th" />
+
+                <CheckBox
+                    android:id="@+id/checkBox5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.14"
+                    android:checked="true"
+                    android:text="@string/f" />
+
+                <CheckBox
+                    android:id="@+id/checkBox6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.14"
+                    android:checked="true"
+                    android:text="@string/s" />
+
+                <CheckBox
+                    android:id="@+id/checkBox7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.14"
+                    android:checked="true"
+                    android:text="@string/su" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:onClick="cancel"
+                android:text="@string/cancel"
+                app:layout_constraintBottom_toBottomOf="@+id/ok_button"
+                app:layout_constraintEnd_toStartOf="@+id/ok_button"
+                app:layout_constraintTop_toTopOf="@+id/ok_button" />
+
+            <Button
+                android:id="@+id/ok_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:onClick="updateMedicine"
+                android:text="@string/update"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checkboxes" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

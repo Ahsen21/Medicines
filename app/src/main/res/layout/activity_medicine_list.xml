@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    tools:context="com.example.android.medicines.MedicineList">
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/info"
+        android:textAlignment="center" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/meds_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavBar"
+        android:layout_below="@id/info"
+        android:layout_marginBottom="30dp"
+        android:padding="16dp"
+        android:scrollbars="vertical" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottomNavBar"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="5dp"
+        android:elevation="0dp"
+        android:onClick="addNewMedicine"
+        android:src="@drawable/ic_add_for_fab"
+        app:fabCustomSize="65dp" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="#FFFFFF"
+        app:itemTextColor="#FFFFFF"
+        app:menu="@menu/navigation" />
+
+</RelativeLayout>
+
+<!--<com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--android:id="@+id/bottomNavBar"-->
+<!--android:layout_alignParentBottom="true"-->
+<!--android:layout_height="50dp"-->
+<!--android:layout_width="match_parent"-->
+<!--app:itemBackground="@color/colorPrimary"-->
+<!--app:itemIconTint="#FFFFFF"-->
+<!--app:itemTextColor="#FFFFFF"-->
+<!--app:menu="@menu/navigation" />-->
