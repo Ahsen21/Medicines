@@ -8,13 +8,14 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 public class MedicineViewModel extends AndroidViewModel {
-    private MedicineRepository repository;
+
+    private MedicineRepository medRepository;
     private LiveData<List<Medicine>> allMeds;
 
     public MedicineViewModel(Application application) {
         super(application);
-        repository = new MedicineRepository(application);
-        allMeds = repository.getAllMeds();
+        medRepository = new MedicineRepository(application);
+        allMeds = medRepository.getAllMeds();
     }
 
     LiveData<List<Medicine>> getAllMeds() {
@@ -22,14 +23,14 @@ public class MedicineViewModel extends AndroidViewModel {
     }
 
     public void insert(Medicine medicine) {
-        repository.insert(medicine);
+        medRepository.insert(medicine);
     }
 
     public void deleteAll() {
-        repository.deleteAll();
+        medRepository.deleteAll();
     }
 
     public void deleteWord(Medicine medicine) {
-        repository.deleteMed(medicine);
+        medRepository.deleteMed(medicine);
     }
 }

@@ -24,15 +24,15 @@ public class MedicineRepository {
 
     // Method to insert a new Medicine
     private static class insertAsyncTask extends AsyncTask<Medicine, Void, Void> {
-        private MedicineDao asyncTaskDao;
+        private MedicineDao asyncTaskMedDao;
 
         insertAsyncTask(MedicineDao dao) {
-            asyncTaskDao = dao;
+            asyncTaskMedDao = dao;
         }
 
         @Override
         protected Void doInBackground(final Medicine... params) {
-            asyncTaskDao.insert(params[0]);
+            asyncTaskMedDao.insert(params[0]);
             return null;
         }
     }
@@ -43,15 +43,15 @@ public class MedicineRepository {
 
     // Method to delete all Medicines
     private static class deleteAllMedsAsyncTask extends AsyncTask<Void, Void, Void> {
-        private MedicineDao mAsyncTaskDao;
+        private MedicineDao asyncTaskMedDao;
 
         deleteAllMedsAsyncTask(MedicineDao dao) {
-            mAsyncTaskDao = dao;
+            asyncTaskMedDao = dao;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            mAsyncTaskDao.deleteAll();
+            asyncTaskMedDao.deleteAll();
             return null;
         }
     }
@@ -62,15 +62,15 @@ public class MedicineRepository {
 
     // Method to delete a single Medicine
     private static class deleteMedAsyncTask extends AsyncTask<Medicine, Void, Void> {
-        private MedicineDao mAsyncTaskDao;
+        private MedicineDao asyncTaskMedDao;
 
         deleteMedAsyncTask(MedicineDao dao) {
-            mAsyncTaskDao = dao;
+            asyncTaskMedDao = dao;
         }
 
         @Override
         protected Void doInBackground(final Medicine... params) {
-            mAsyncTaskDao.deleteMed(params[0]);
+            asyncTaskMedDao.deleteMed(params[0]);
             return null;
         }
     }

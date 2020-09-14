@@ -30,8 +30,7 @@ public class AlarmViewModel extends AndroidViewModel {
         alarmRepository.deleteAll();
     }
 
-    public void deleteWord(Alarm alarm) {
-        alarmRepository.deleteMed(alarm);
+    public void deleteAlarm(Alarm alarm) {
+        alarmRepository.deleteAlarm(alarm);
     }
-
 }

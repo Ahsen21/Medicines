@@ -75,7 +75,7 @@ public class AlarmRepository {
         }
     }
     // Calls the deleteAlarm method
-    public void deleteMed(Alarm alarm) {
+    public void deleteAlarm(Alarm alarm) {
         new AlarmRepository.deleteAlarmAsyncTask(alarmDao).execute(alarm);
     }
 }
