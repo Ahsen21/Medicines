@@ -105,7 +105,7 @@ public class NewMedicine extends AppCompatActivity {
                 tuesdayOn, wednesdayOn, thursdayOn, fridayOn, saturdayOn, sundayOn);
 
         Intent i = new Intent(this, MedicineList.class);
-        i.putExtra("key", newMed);
+        i.putExtra("addIntent", newMed);
         setResult(RESULT_OK, i);
         finish();
     }

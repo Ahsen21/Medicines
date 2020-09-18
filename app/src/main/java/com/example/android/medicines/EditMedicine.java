@@ -155,7 +155,7 @@ public class EditMedicine extends AppCompatActivity {
                 tuesdayOn, wednesdayOn, thursdayOn, fridayOn, saturdayOn, sundayOn);
 
         Intent i = new Intent(this, MedicineList.class);
-        i.putExtra("key", newMed);
+        i.putExtra("editIntent", newMed);
         setResult(RESULT_OK, i);
         finish();
     }

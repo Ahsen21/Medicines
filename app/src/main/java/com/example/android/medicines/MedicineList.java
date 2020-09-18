@@ -32,7 +32,8 @@ public class MedicineList extends AppCompatActivity {
     MedicineViewModel medicineViewModel;
     BottomNavigationView bottomNav;
     int editMedPosition;
-    public static final int TEXT_REQUEST = 1;
+    public static final int NEW_MED_REQUEST = 1;
+    public static final int EDIT_MED_REQUEST = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,36 +90,69 @@ public class MedicineList extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == TEXT_REQUEST && resultCode == RESULT_OK) {
+        switch (requestCode) {
+            case NEW_MED_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    Medicine newMed = (Medicine) data.getSerializableExtra("addIntent");
 
-            Medicine newMed = (Medicine) data.getSerializableExtra("key");
+                    medicineArray.add(newMed);
+                    medicineViewModel.insert(newMed);
 
-            Medicine medicine = adapter.getMedAtPosition(editMedPosition);
-            medicineViewModel.deleteWord(medicine);
-            adapter.notifyItemRemoved(editMedPosition);
-
-            medicineArray.add(newMed);
-            medicineViewModel.insert(newMed);
-
-            adapter = new MedicineAdapter(this, medicineArray);
-            recyclerView.setAdapter(adapter);
-
-            medicineViewModel = ViewModelProviders.of(this).get(MedicineViewModel.class);
-
-            medicineViewModel.getAllMeds().observe(this, new Observer<List<Medicine>>() {
-                @Override
-                public void onChanged(@Nullable final List<Medicine> medicines) {
-                    adapter.setMedicineArray(medicines);
+                } else if (resultCode == RESULT_CANCELED) {
+                    adapter.notifyItemChanged(editMedPosition);
                 }
-            });
-        } else if (requestCode == TEXT_REQUEST && resultCode == RESULT_CANCELED) {
-            adapter.notifyItemChanged(editMedPosition);
+
+                break;
+            case EDIT_MED_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    Medicine editedMed = (Medicine) data.getSerializableExtra("editIntent");
+
+                    Medicine medicine = adapter.getMedAtPosition(editMedPosition);
+                    medicineViewModel.deleteWord(medicine);
+                    adapter.notifyItemRemoved(editMedPosition);
+
+                    medicineArray.add(editedMed);
+                    medicineViewModel.insert(editedMed);
+
+                } else if (resultCode == RESULT_CANCELED) {
+                    adapter.notifyItemChanged(editMedPosition);
+                }
+                break;
         }
+//        if (requestCode == NEW_MED_REQUEST && resultCode == RESULT_OK) {
+//
+//            Medicine newMed = (Medicine) data.getSerializableExtra("addIntent");
+//
+//            medicineArray.add(newMed);
+//            medicineViewModel.insert(newMed);
+//
+//            Medicine editedMed = (Medicine) data.getSerializableExtra("editIntent");
+//
+//            Medicine medicine = adapter.getMedAtPosition(editMedPosition);
+//            medicineViewModel.deleteWord(medicine);
+//            adapter.notifyItemRemoved(editMedPosition);
+//
+//
+//
+//            adapter = new MedicineAdapter(this, medicineArray);
+//            recyclerView.setAdapter(adapter);
+//
+//            medicineViewModel = ViewModelProviders.of(this).get(MedicineViewModel.class);
+//
+//            medicineViewModel.getAllMeds().observe(this, new Observer<List<Medicine>>() {
+//                @Override
+//                public void onChanged(@Nullable final List<Medicine> medicines) {
+//                    adapter.setMedicineArray(medicines);
+//                }
+//            });
+//        } else if (requestCode == NEW_MED_REQUEST && resultCode == RESULT_CANCELED) {
+//            adapter.notifyItemChanged(editMedPosition);
+//        }
     }
 
     public void addNewMedicine(View view) {
         Intent intent = new Intent(this, NewMedicine.class);
-        startActivityForResult(intent, TEXT_REQUEST);
+        startActivityForResult(intent, NEW_MED_REQUEST);
     }
 
 //    public void editMedicine(View view) {
@@ -184,7 +218,7 @@ public class MedicineList extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             Intent editIntent = new Intent(MedicineList.this, EditMedicine.class);
                                             editIntent.putExtra("medToEdit", medicine);
-                                            startActivityForResult(editIntent, TEXT_REQUEST);
+                                            startActivityForResult(editIntent, EDIT_MED_REQUEST);
                                         }
                                     });
                     editMedDialogBuilder.setNegativeButton("Cancel",
@@ -202,43 +236,5 @@ public class MedicineList extends AppCompatActivity {
         });
         helper.attachToRecyclerView(recyclerView);
     }
-
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.top_app_bar, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//
-//        if (id == R.id.clear_data) {
-//            // Add a toast just for confirmation
-//            Toast.makeText(this, "Clearing the data...",
-//                    Toast.LENGTH_SHORT).show();
-//
-//            // Delete the existing data
-//            medicineViewModel.deleteAll();
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
-//    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-//            new BottomNavigationView.OnNavigationItemSelectedListener() {
-//                @Override
-//                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                    Fragment selectedFragment = null;
-//                    int id = item.getItemId();
-//
-//                    if (id == R.id.home_page) {
-//                        selectedFragment = new MedicineListFragment();
-//                    }
-//                    getSupportFragmentManager().beginTransaction().replace(R.id.)
-//                }
-//            };
 
 }
