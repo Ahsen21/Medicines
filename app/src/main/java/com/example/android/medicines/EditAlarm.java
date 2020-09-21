@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
 
-public class AddAlarm extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class EditAlarm extends AppCompatActivity {
 
     EditText alarmTimeText;
     String timeValue, spinnerLabel;
@@ -25,29 +25,47 @@ public class AddAlarm extends AppCompatActivity implements AdapterView.OnItemSel
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_alarm);
+        setContentView(R.layout.activity_edit_medicine);
 
         alarmTimeText = findViewById(R.id.alarm_time);
 
-        spinner = findViewById(R.id.spinner);
-        if (spinner != null) {
-            spinner.setOnItemSelectedListener(this);
-        }
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.labels_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        spinner = findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(listener);
+        spinner.setAdapter(adapter);
+
+
+        Intent i = getIntent();
+        Alarm alarmToEdit = (Alarm) i.getSerializableExtra("alarmToEdit");
+        if (alarmToEdit != null) setDefaultText(alarmToEdit);
+
+        assert alarmToEdit != null;
+        String alarmName = alarmToEdit.alarmName;
+        int namePosition = adapter.getPosition(alarmName);
+        spinner.setSelection(namePosition);
+
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        spinnerLabel = parent.getItemAtPosition(position).toString();
+    public void setDefaultText(Alarm alarmToEdit) {
+        alarmTimeText.setText(alarmToEdit.getAlarmTime());
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            spinnerLabel = parent.getItemAtPosition(position).toString();
+        }
 
-    }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
 
     public void setTime(View view) {
         final Calendar calendar = Calendar.getInstance();
@@ -113,7 +131,7 @@ public class AddAlarm extends AppCompatActivity implements AdapterView.OnItemSel
 
         Alarm newAlarm = new Alarm(spinnerLabel, timeValue);
 
-        Intent i = new Intent(AddAlarm.this, SetAlarms.class);
+        Intent i = new Intent(EditAlarm.this, SetAlarms.class);
         i.putExtra("newAlarm", newAlarm);
         setResult(RESULT_OK, i);
         finish();
@@ -121,6 +139,8 @@ public class AddAlarm extends AppCompatActivity implements AdapterView.OnItemSel
 
     public void cancel(View view) {
         Intent intent = new Intent(this, SetAlarms.class);
-        startActivity(intent);
+        setResult(RESULT_CANCELED, intent);
+        finish();
     }
+
 }

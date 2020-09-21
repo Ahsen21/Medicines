@@ -155,15 +155,6 @@ public class MedicineList extends AppCompatActivity {
         startActivityForResult(intent, NEW_MED_REQUEST);
     }
 
-//    public void editMedicine(View view) {
-//        int position
-//        Medicine medToEdit = adapter.getMedAtPosition(position);
-//        Intent editIntent = new Intent(this, EditMedicine.class);
-//        editIntent.putExtra("medToEdit", medToEdit);
-//        setResult(RESULT_OK, editIntent);
-//        finish();
-//    }
-
     public void enableItemRemoval() {
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper
                 .SimpleCallback(0,
@@ -193,7 +184,6 @@ public class MedicineList extends AppCompatActivity {
                                             Toast.makeText(MedicineList.this, "Deleting " +
                                                     medicine.getMedName(), Toast.LENGTH_LONG).show();
 
-                                            // Delete the word
                                             medicineViewModel.deleteWord(medicine);
                                             adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                                         }
@@ -228,9 +218,6 @@ public class MedicineList extends AppCompatActivity {
                                 }
                             });
                     editMedDialogBuilder.create().show();
-//                    Intent editIntent = new Intent(MedicineList.this, EditMedicine.class);
-//                    editIntent.putExtra("medToEdit", medicine);
-//                    startActivity(editIntent);
                 }
             }
         });

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "185072153350",
+    "firebase_url": "https://medicines-c3042.firebaseio.com",
+    "project_id": "medicines-c3042",
+    "storage_bucket": "medicines-c3042.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185072153350:android:7535c7a004c4edd1a5e487",
+        "android_client_info": {
+          "package_name": "com.example.android.medicines"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185072153350-pvlckcbmpgo618ukjp5qkrr2mu12f6u2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpa5S6Bct4VTIFqqbe0bINpg9TeVAumu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185072153350-pvlckcbmpgo618ukjp5qkrr2mu12f6u2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
