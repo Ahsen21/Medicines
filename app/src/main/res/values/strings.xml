@@ -59,6 +59,7 @@
     <string name="dosage">Dosage</string>
     <string name="days_heading">Days:</string>
     <string name="morning_arrow">Morning arrow</string>
+    <string name="edit_alarm_heading">Edit the time and/or name of the alarm</string>
 
     <string-array name="labels_array">
         <item> </item>

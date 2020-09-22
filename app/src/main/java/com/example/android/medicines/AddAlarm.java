@@ -36,7 +36,9 @@ public class AddAlarm extends AppCompatActivity implements AdapterView.OnItemSel
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.labels_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+        if (spinner != null) {
+            spinner.setAdapter(adapter);
+        }
     }
 
     @Override

@@ -25,10 +25,6 @@ import java.util.List;
 
 public class SetAlarms extends AppCompatActivity {
 
-    //    int currentHour, currentMinute;
-//    EditText morningTime, afternoonTime, eveningTime, nightTime;
-//    String morningMed, afternoonMed, eveningMed, nightMed;
-//    Button morningAlarm, afternoonAlarm, eveningAlarm, nightAlarm;
     List<Alarm> alarmList;
     AlarmViewModel alarmViewModel;
     RecyclerView recyclerView;
@@ -105,9 +101,15 @@ public class SetAlarms extends AppCompatActivity {
                 break;
             case EDIT_ALARM_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    Alarm editedAlarm = (Alarm) data.getSerializableExtra("editIntent");
+                    Alarm editedAlarm = (Alarm) data.getSerializableExtra("editAlarm");
 
                     Alarm alarm = alarmAdapter.getAlarmAtPosition(editAlarmPosition);
+
+                    Intent i = new Intent(AlarmClock.ACTION_DISMISS_ALARM);
+                    i.putExtra(AlarmClock.ALARM_SEARCH_MODE_LABEL, alarm.alarmName);
+                    i.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+                    startActivity(i);
+
                     alarmViewModel.deleteAlarm(alarm);
                     alarmAdapter.notifyItemRemoved(editAlarmPosition);
 
@@ -139,108 +141,90 @@ public class SetAlarms extends AppCompatActivity {
 //                }
 //            });
 //        }
-        }
+    }
 
-    public void addNewAlarm (View view){
+    public void addNewAlarm(View view) {
         Intent intent = new Intent(this, AddAlarm.class);
         startActivityForResult(intent, NEW_ALARM_REQUEST);
     }
 
-        public void deleteOnSwipe () {
-            ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper
-                    .SimpleCallback(0,
-                    ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-                @Override
-                public boolean onMove(@NonNull RecyclerView recyclerView,
-                                      @NonNull RecyclerView.ViewHolder viewHolder,
-                                      @NonNull RecyclerView.ViewHolder target) {
-                    return false;
+    public void deleteOnSwipe() {
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper
+                .SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                final Alarm alarm = alarmAdapter.getAlarmAtPosition(position);
+
+                if (direction == ItemTouchHelper.RIGHT) {
+
+                    alarmAdapter.notifyItemChanged(position);
+                    AlertDialog.Builder deleteMedDialogBuilder =
+                            new AlertDialog.Builder(SetAlarms.this);
+                    deleteMedDialogBuilder.setCancelable(true)
+                            .setMessage("Are you sure you want to delete this alarm?")
+                            .setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Toast.makeText(SetAlarms.this, "Deleting " +
+                                                    alarm.getAlarmName() + " alarm", Toast.LENGTH_LONG).show();
+
+                                            alarmViewModel.deleteAlarm(alarm);
+                                            alarmAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+
+                                            String alarmName = alarm.alarmName + " medicine";
+
+                                            Intent i = new Intent(AlarmClock.ACTION_DISMISS_ALARM);
+                                            i.putExtra(AlarmClock.ALARM_SEARCH_MODE_LABEL, alarmName);
+                                            i.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+                                            startActivity(i);
+                                        }
+                                    });
+                    deleteMedDialogBuilder.setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                    deleteMedDialogBuilder.create().show();
+
+                } else if (direction == ItemTouchHelper.LEFT) {
+
+                    alarmAdapter.notifyItemChanged(editAlarmPosition);
+                    editAlarmPosition = viewHolder.getAdapterPosition();
+                    AlertDialog.Builder editMedDialogBuilder =
+                            new AlertDialog.Builder(SetAlarms.this);
+                    editMedDialogBuilder.setCancelable(true)
+                            .setMessage("Edit alarm?")
+                            .setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Intent editIntent = new Intent(SetAlarms.this, EditAlarm.class);
+                                            editIntent.putExtra("alarmToEdit", alarm);
+                                            startActivityForResult(editIntent, EDIT_ALARM_REQUEST);
+                                        }
+                                    });
+                    editMedDialogBuilder.setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                    editMedDialogBuilder.create().show();
+
                 }
-
-                @Override
-                public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
-                    int position = viewHolder.getAdapterPosition();
-                    final Alarm alarm = alarmAdapter.getAlarmAtPosition(position);
-
-                    if (direction == ItemTouchHelper.RIGHT) {
-                        alarmAdapter.notifyItemChanged(position);
-                        AlertDialog.Builder deleteMedDialogBuilder =
-                                new AlertDialog.Builder(SetAlarms.this);
-                        deleteMedDialogBuilder.setCancelable(true)
-                                .setMessage("Are you sure you want to delete this medicine?")
-                                .setPositiveButton("OK",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Toast.makeText(SetAlarms.this, "Deleting " +
-                                                        alarm.getAlarmName(), Toast.LENGTH_LONG).show();
-
-                                                alarmViewModel.deleteAlarm(alarm);
-                                                alarmAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-
-                                                Intent i = new Intent(AlarmClock.ACTION_DISMISS_ALARM);
-                                                i.putExtra(AlarmClock.ALARM_SEARCH_MODE_LABEL, alarm.alarmName);
-                                                startActivity(i);
-                                            }
-                                        });
-                        deleteMedDialogBuilder.setNegativeButton("Cancel",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                });
-                        deleteMedDialogBuilder.create().show();
-                    } else if (direction == ItemTouchHelper.LEFT) {
-                        alarmAdapter.notifyItemChanged(editAlarmPosition);
-                        editAlarmPosition = viewHolder.getAdapterPosition();
-                        AlertDialog.Builder editMedDialogBuilder =
-                                new AlertDialog.Builder(SetAlarms.this);
-                        editMedDialogBuilder.setCancelable(true)
-                                .setMessage("Edit medicine?")
-                                .setPositiveButton("OK",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Intent editIntent = new Intent(SetAlarms.this, EditMedicine.class);
-                                                editIntent.putExtra("alarmToEdit", alarm);
-                                                startActivityForResult(editIntent, EDIT_ALARM_REQUEST);
-                                            }
-                                        });
-                        editMedDialogBuilder.setNegativeButton("Cancel",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                });
-                        editMedDialogBuilder.create().show();
-                    }
-                }
-            });
-            helper.attachToRecyclerView(recyclerView);
-        }
+            }
+        });
+        helper.attachToRecyclerView(recyclerView);
     }
-
-
-//        TimePickerDialog alarmDialog = new TimePickerDialog(this,
-//                new TimePickerDialog.OnTimeSetListener() {
-//
-//                    @Override
-//                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//
-//                        switch (view.getId()) {
-//                            case R.id.morning_button:
-//                                morningTime.setText(hourOfDay + ":" + minute);
-//                                break;
-//                            case R.id.afternoon_button:
-//                                afternoonTime.setText(hourOfDay + ":" + minute);
-//                                break;
-//                            case R.id.evening_button:
-//                                eveningTime.setText(hourOfDay + ":" + minute);
-//                                break;
-//                            case R.id.night_button:
-//                                nightTime.setText(hourOfDay + ":" + minute);
-//                                break;
-//                        }
-//                    }
-//                }, hour, minute, false);
-//        alarmDialog.show();
+}

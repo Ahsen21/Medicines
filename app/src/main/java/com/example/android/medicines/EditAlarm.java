@@ -25,7 +25,7 @@ public class EditAlarm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_medicine);
+        setContentView(R.layout.activity_edit_alarm);
 
         alarmTimeText = findViewById(R.id.alarm_time);
 
@@ -37,15 +37,14 @@ public class EditAlarm extends AppCompatActivity {
         spinner.setOnItemSelectedListener(listener);
         spinner.setAdapter(adapter);
 
-
         Intent i = getIntent();
         Alarm alarmToEdit = (Alarm) i.getSerializableExtra("alarmToEdit");
         if (alarmToEdit != null) setDefaultText(alarmToEdit);
 
         assert alarmToEdit != null;
-        String alarmName = alarmToEdit.alarmName;
-        int namePosition = adapter.getPosition(alarmName);
-        spinner.setSelection(namePosition);
+        String alarmName = alarmToEdit.getAlarmName();
+        int alarmPosition = adapter.getPosition(alarmName);
+        spinner.setSelection(alarmPosition);
 
     }
 
@@ -59,13 +58,11 @@ public class EditAlarm extends AppCompatActivity {
             spinnerLabel = parent.getItemAtPosition(position).toString();
         }
 
-
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
 
         }
     };
-
 
     public void setTime(View view) {
         final Calendar calendar = Calendar.getInstance();
@@ -132,7 +129,7 @@ public class EditAlarm extends AppCompatActivity {
         Alarm newAlarm = new Alarm(spinnerLabel, timeValue);
 
         Intent i = new Intent(EditAlarm.this, SetAlarms.class);
-        i.putExtra("newAlarm", newAlarm);
+        i.putExtra("editAlarm", newAlarm);
         setResult(RESULT_OK, i);
         finish();
     }
@@ -142,5 +139,4 @@ public class EditAlarm extends AppCompatActivity {
         setResult(RESULT_CANCELED, intent);
         finish();
     }
-
 }

@@ -10,6 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".EditAlarm"
+            android:label="Edit Alarm"
+            android:parentActivityName=".SetAlarms">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.medicines.MainActivity" />
+        </activity>
+        <activity
             android:name=".AddAlarm"
             android:label="Add Alarm"
             android:parentActivityName=".SetAlarms">

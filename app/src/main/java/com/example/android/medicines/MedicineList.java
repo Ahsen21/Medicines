@@ -47,6 +47,7 @@ public class MedicineList extends AppCompatActivity {
 
         bottomNav.setSelectedItemId(R.id.medicine_page);
 
+        // Bottom nav functionality
         bottomNav.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -68,14 +69,17 @@ public class MedicineList extends AppCompatActivity {
                     }
                 });
 
+        //Setting the adapter for the RecyclerView
         recyclerView = findViewById(R.id.meds_list);
         adapter = new MedicineAdapter(this, medicineArray);
         recyclerView.setAdapter(adapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // Calls swipe/edit function
         enableItemRemoval();
 
+        // Get and display Medicine List from the ViewModel
         medicineViewModel = ViewModelProviders.of(this).get(MedicineViewModel.class);
 
         medicineViewModel.getAllMeds().observe(this, new Observer<List<Medicine>>() {
@@ -91,8 +95,10 @@ public class MedicineList extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
+            // Checks if the intent was from the NewMed activity
             case NEW_MED_REQUEST:
                 if (resultCode == RESULT_OK) {
+                    // Gets the new med from the intent and adds the new object  list
                     Medicine newMed = (Medicine) data.getSerializableExtra("addIntent");
 
                     medicineArray.add(newMed);
@@ -103,13 +109,16 @@ public class MedicineList extends AppCompatActivity {
                 }
 
                 break;
+            // Checks if the intent was from the EditMed activity
             case EDIT_MED_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    Medicine editedMed = (Medicine) data.getSerializableExtra("editIntent");
-
+                    // Deletes the Med at the position that was swiped
                     Medicine medicine = adapter.getMedAtPosition(editMedPosition);
                     medicineViewModel.deleteWord(medicine);
                     adapter.notifyItemRemoved(editMedPosition);
+
+                    // Gets the edited med from the intent and adds it to the list
+                    Medicine editedMed = (Medicine) data.getSerializableExtra("editIntent");
 
                     medicineArray.add(editedMed);
                     medicineViewModel.insert(editedMed);
@@ -150,15 +159,19 @@ public class MedicineList extends AppCompatActivity {
 //        }
     }
 
+    // Sends an intent to go to the NewMed activity
     public void addNewMedicine(View view) {
         Intent intent = new Intent(this, NewMedicine.class);
         startActivityForResult(intent, NEW_MED_REQUEST);
     }
 
+    // Enables item swipe/move
     public void enableItemRemoval() {
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper
                 .SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            // Does something when list items are moved (drag and drop)
+            // Currently does nothing
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView,
                                   @NonNull RecyclerView.ViewHolder viewHolder,
@@ -166,6 +179,7 @@ public class MedicineList extends AppCompatActivity {
                 return false;
             }
 
+            // Does something when list items are swiped
             @Override
             public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
@@ -173,6 +187,8 @@ public class MedicineList extends AppCompatActivity {
 
                 if (direction == ItemTouchHelper.RIGHT) {
                     adapter.notifyItemChanged(editMedPosition);
+
+                    // Creates a dialog box asking for confirmation to delete
                     AlertDialog.Builder deleteMedDialogBuilder =
                             new AlertDialog.Builder(MedicineList.this);
                     deleteMedDialogBuilder.setCancelable(true)
@@ -181,6 +197,8 @@ public class MedicineList extends AppCompatActivity {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+
+                                            // If "OK" is pressed, it deletes the item
                                             Toast.makeText(MedicineList.this, "Deleting " +
                                                     medicine.getMedName(), Toast.LENGTH_LONG).show();
 
@@ -192,12 +210,18 @@ public class MedicineList extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    // Does nothing
                                 }
                             });
                     deleteMedDialogBuilder.create().show();
+
                 } else if (direction == ItemTouchHelper.LEFT) {
+
+                    // Gets the position of the swiped item
                     adapter.notifyItemChanged(editMedPosition);
                     editMedPosition = viewHolder.getAdapterPosition();
+
+                    // Creates a dialog box asking for confirmation to edit
                     AlertDialog.Builder editMedDialogBuilder =
                             new AlertDialog.Builder(MedicineList.this);
                     editMedDialogBuilder.setCancelable(true)
@@ -206,6 +230,7 @@ public class MedicineList extends AppCompatActivity {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            // Sends an intent to the EditMed activity, with the current Med as an extra
                                             Intent editIntent = new Intent(MedicineList.this, EditMedicine.class);
                                             editIntent.putExtra("medToEdit", medicine);
                                             startActivityForResult(editIntent, EDIT_MED_REQUEST);
@@ -215,9 +240,11 @@ public class MedicineList extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    // Does nothing
                                 }
                             });
                     editMedDialogBuilder.create().show();
+
                 }
             }
         });
