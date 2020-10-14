@@ -3,7 +3,6 @@ package com.example.android.medicines;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.AlarmClock;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,6 +20,8 @@ public class AddAlarm extends AppCompatActivity implements AdapterView.OnItemSel
     String timeValue, spinnerLabel;
     Spinner spinner;
     int currentHour, currentMinute;
+    String alarmLabel;
+    int alarmHour, alarmMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +64,14 @@ public class AddAlarm extends AppCompatActivity implements AdapterView.OnItemSel
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         String am_pm = "";
                         String minuteOfDay;
-                        String alarmLabel = "";
+                        alarmLabel = "";
 
                         Calendar c = Calendar.getInstance();
                         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         c.set(Calendar.MINUTE, minute);
+
+                        alarmHour = hourOfDay;
+                        alarmMinute = minute;
 
                         if (c.get(Calendar.AM_PM) == Calendar.AM)
                             am_pm = "AM";
@@ -99,12 +103,7 @@ public class AddAlarm extends AppCompatActivity implements AdapterView.OnItemSel
                         String timeText = strHrsToShow + ":" + minuteOfDay + " " + am_pm;
                         alarmTimeText.setText(timeText);
 
-                        Intent alarmIntent = new Intent(AlarmClock.ACTION_SET_ALARM);
-                        alarmIntent.putExtra(AlarmClock.EXTRA_HOUR, hourOfDay);
-                        alarmIntent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
-                        alarmIntent.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-                        alarmIntent.putExtra(AlarmClock.EXTRA_MESSAGE, alarmLabel);
-                        startActivity(alarmIntent);
+
                     }
                 }, currentHour, currentMinute, false);
         alarmDialog.show();
@@ -113,11 +112,11 @@ public class AddAlarm extends AppCompatActivity implements AdapterView.OnItemSel
     public void saveAlarm(View view) {
         timeValue = alarmTimeText.getText().toString();
 
-        Alarm newAlarm = new Alarm(spinnerLabel, timeValue);
+        Alarm newAlarm = new Alarm(spinnerLabel, timeValue, alarmHour, alarmMinute);
 
-        Intent i = new Intent(AddAlarm.this, SetAlarms.class);
-        i.putExtra("newAlarm", newAlarm);
-        setResult(RESULT_OK, i);
+        Intent newIntent = new Intent(AddAlarm.this, SetAlarms.class);
+        newIntent.putExtra("newAlarm", newAlarm);
+        setResult(RESULT_OK, newIntent);
         finish();
     }
 

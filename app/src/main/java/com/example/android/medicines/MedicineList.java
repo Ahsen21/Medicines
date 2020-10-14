@@ -25,6 +25,7 @@ import java.util.List;
 
 public class MedicineList extends AppCompatActivity {
 
+    // Instance variables
     List<Medicine> medicineArray;
     FloatingActionButton fab;
     RecyclerView recyclerView;
@@ -79,7 +80,7 @@ public class MedicineList extends AppCompatActivity {
         // Calls swipe/edit function
         enableItemRemoval();
 
-        // Get and display Medicine List from the ViewModel
+        // Gets and displays Medicine List from the ViewModel
         medicineViewModel = ViewModelProviders.of(this).get(MedicineViewModel.class);
 
         medicineViewModel.getAllMeds().observe(this, new Observer<List<Medicine>>() {
@@ -104,10 +105,18 @@ public class MedicineList extends AppCompatActivity {
                     medicineArray.add(newMed);
                     medicineViewModel.insert(newMed);
 
+                    // Gets and displays Medicine List from the ViewModel
+                    medicineViewModel = ViewModelProviders.of(this).get(MedicineViewModel.class);
+                    medicineViewModel.getAllMeds().observe(this, new Observer<List<Medicine>>() {
+                        @Override
+                        public void onChanged(@Nullable final List<Medicine> medicines) {
+                            adapter.setMedicineArray(medicines);
+                        }
+                    });
+
                 } else if (resultCode == RESULT_CANCELED) {
                     adapter.notifyItemChanged(editMedPosition);
                 }
-
                 break;
             // Checks if the intent was from the EditMed activity
             case EDIT_MED_REQUEST:
@@ -119,9 +128,17 @@ public class MedicineList extends AppCompatActivity {
 
                     // Gets the edited med from the intent and adds it to the list
                     Medicine editedMed = (Medicine) data.getSerializableExtra("editIntent");
-
                     medicineArray.add(editedMed);
                     medicineViewModel.insert(editedMed);
+
+                    // Gets and displays Medicine List from the ViewModel
+                    medicineViewModel = ViewModelProviders.of(this).get(MedicineViewModel.class);
+                    medicineViewModel.getAllMeds().observe(this, new Observer<List<Medicine>>() {
+                        @Override
+                        public void onChanged(@Nullable final List<Medicine> medicines) {
+                            adapter.setMedicineArray(medicines);
+                        }
+                    });
 
                 } else if (resultCode == RESULT_CANCELED) {
                     adapter.notifyItemChanged(editMedPosition);
@@ -170,6 +187,7 @@ public class MedicineList extends AppCompatActivity {
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper
                 .SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
             // Does something when list items are moved (drag and drop)
             // Currently does nothing
             @Override
@@ -189,8 +207,7 @@ public class MedicineList extends AppCompatActivity {
                     adapter.notifyItemChanged(editMedPosition);
 
                     // Creates a dialog box asking for confirmation to delete
-                    AlertDialog.Builder deleteMedDialogBuilder =
-                            new AlertDialog.Builder(MedicineList.this);
+                    AlertDialog.Builder deleteMedDialogBuilder = new AlertDialog.Builder(MedicineList.this);
                     deleteMedDialogBuilder.setCancelable(true)
                             .setMessage("Are you sure you want to delete this medicine?")
                             .setPositiveButton("OK",
@@ -218,12 +235,11 @@ public class MedicineList extends AppCompatActivity {
                 } else if (direction == ItemTouchHelper.LEFT) {
 
                     // Gets the position of the swiped item
-                    adapter.notifyItemChanged(editMedPosition);
                     editMedPosition = viewHolder.getAdapterPosition();
+                    adapter.notifyItemChanged(editMedPosition);
 
                     // Creates a dialog box asking for confirmation to edit
-                    AlertDialog.Builder editMedDialogBuilder =
-                            new AlertDialog.Builder(MedicineList.this);
+                    AlertDialog.Builder editMedDialogBuilder = new AlertDialog.Builder(MedicineList.this);
                     editMedDialogBuilder.setCancelable(true)
                             .setMessage("Edit medicine?")
                             .setPositiveButton("OK",

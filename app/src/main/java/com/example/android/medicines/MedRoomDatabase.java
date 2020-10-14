@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-@Database(entities = {Medicine.class, Alarm.class}, version = 4, exportSchema = false)
+@Database(entities = {Medicine.class, Alarm.class}, version = 5, exportSchema = false)
 public abstract class MedRoomDatabase extends RoomDatabase {
 
     public abstract MedicineDao medicineDao();

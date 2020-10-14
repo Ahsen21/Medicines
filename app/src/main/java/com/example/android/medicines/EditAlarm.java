@@ -3,7 +3,6 @@ package com.example.android.medicines;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.AlarmClock;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,6 +20,9 @@ public class EditAlarm extends AppCompatActivity {
     String timeValue, spinnerLabel;
     Spinner spinner;
     int currentHour, currentMinute;
+    int alarmHour, alarmMinute;
+    String alarmLabel;
+    int defaultHour, defaultMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class EditAlarm extends AppCompatActivity {
         if (alarmToEdit != null) setDefaultText(alarmToEdit);
 
         assert alarmToEdit != null;
+        defaultHour = alarmToEdit.getAlarmHour();
+        defaultMinute = alarmToEdit.getAlarmMinute();
+
         String alarmName = alarmToEdit.getAlarmName();
         int alarmPosition = adapter.getPosition(alarmName);
         spinner.setSelection(alarmPosition);
@@ -65,9 +70,11 @@ public class EditAlarm extends AppCompatActivity {
     };
 
     public void setTime(View view) {
-        final Calendar calendar = Calendar.getInstance();
-        currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        currentMinute = calendar.get(Calendar.MINUTE);
+//        final Calendar calendar = Calendar.getInstance();
+//        currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+//        currentMinute = calendar.get(Calendar.MINUTE);
+        currentHour = defaultHour;
+        currentMinute = defaultMinute;
 
         TimePickerDialog alarmDialog = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
@@ -76,11 +83,15 @@ public class EditAlarm extends AppCompatActivity {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         String am_pm = "";
                         String minuteOfDay;
-                        String alarmLabel = "";
+                        alarmLabel = "";
 
                         Calendar c = Calendar.getInstance();
                         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         c.set(Calendar.MINUTE, minute);
+
+                        alarmHour = hourOfDay;
+                        alarmMinute = minute;
+
 
                         if (c.get(Calendar.AM_PM) == Calendar.AM)
                             am_pm = "AM";
@@ -112,12 +123,6 @@ public class EditAlarm extends AppCompatActivity {
                         String timeText = strHrsToShow + ":" + minuteOfDay + " " + am_pm;
                         alarmTimeText.setText(timeText);
 
-                        Intent alarmIntent = new Intent(AlarmClock.ACTION_SET_ALARM);
-                        alarmIntent.putExtra(AlarmClock.EXTRA_HOUR, hourOfDay);
-                        alarmIntent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
-                        alarmIntent.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-                        alarmIntent.putExtra(AlarmClock.EXTRA_MESSAGE, alarmLabel);
-                        startActivity(alarmIntent);
                     }
                 }, currentHour, currentMinute, false);
         alarmDialog.show();
@@ -126,11 +131,11 @@ public class EditAlarm extends AppCompatActivity {
     public void saveAlarm(View view) {
         timeValue = alarmTimeText.getText().toString();
 
-        Alarm newAlarm = new Alarm(spinnerLabel, timeValue);
+        Alarm newAlarm = new Alarm(spinnerLabel, timeValue, alarmHour, alarmMinute);
 
-        Intent i = new Intent(EditAlarm.this, SetAlarms.class);
-        i.putExtra("editAlarm", newAlarm);
-        setResult(RESULT_OK, i);
+        Intent editIntent = new Intent(EditAlarm.this, SetAlarms.class);
+        editIntent.putExtra("editAlarm", newAlarm);
+        setResult(RESULT_OK, editIntent);
         finish();
     }
 

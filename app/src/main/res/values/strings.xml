@@ -22,6 +22,7 @@
     <string name="evening_value">Evening dosage</string>
     <string name="night_value">Night dosage</string>
     <string name="ok">OK</string>
+    <string name="save">Save</string>
     <string name="activity2_name">New Medicine</string>
     <string name="medicine_name">Medicine Name</string>
     <string name="dosages">Dosages</string>
@@ -60,6 +61,7 @@
     <string name="days_heading">Days:</string>
     <string name="morning_arrow">Morning arrow</string>
     <string name="edit_alarm_heading">Edit the time and/or name of the alarm</string>
+    <string name="alarm_info">Click the button to add alarms to the list. Swipe left on an alarm to edit it, swipe right to delete it.</string>
 
     <string-array name="labels_array">
         <item> </item>
@@ -67,12 +69,12 @@
         <item>Afternoon</item>
         <item>Evening</item>
         <item>Night</item>
-        <item>Other</item>
     </string-array>
 
     <string-array name="medicine_units">
         <item> </item>
         <item>tab(s)</item>
+        <item>cap(s)</item>
         <item>mL</item>
         <item>tbsp</item>
         <item>drop(s)</item>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,7 +34,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder> 
         // Get current medicine.
         Alarm currentAlarm = alarmArray.get(position);
 
-        // Populate the textviews with data.
+        // Populate the TextViews with data.
         holder.bindTo(currentAlarm);
     }
 
@@ -68,7 +67,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder> 
         }
 
         void bindTo(Alarm currentAlarm) {
-            alarmName.setText(currentAlarm.getAlarmName() + " alarm: ");
+            alarmName.setText(currentAlarm.getAlarmName() + " alarm:");
             alarmTime.setText(currentAlarm.getAlarmTime());
         }
     }

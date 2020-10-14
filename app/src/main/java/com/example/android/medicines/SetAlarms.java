@@ -91,8 +91,27 @@ public class SetAlarms extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     Alarm newAlarm = (Alarm) data.getSerializableExtra("newAlarm");
 
+                    assert newAlarm != null;
+                    String alarmLabel = newAlarm.getAlarmName() + " Medicines";
+
+                    Intent alarmIntent = new Intent(AlarmClock.ACTION_SET_ALARM);
+                    alarmIntent.putExtra(AlarmClock.EXTRA_HOUR, newAlarm.getAlarmHour());
+                    alarmIntent.putExtra(AlarmClock.EXTRA_MINUTES, newAlarm.getAlarmMinute());
+                    alarmIntent.putExtra(AlarmClock.EXTRA_MESSAGE, alarmLabel);
+                    startActivity(alarmIntent);
+
                     alarmList.add(newAlarm);
                     alarmViewModel.insert(newAlarm);
+
+                    alarmAdapter = new AlarmAdapter(this, (ArrayList<Alarm>) alarmList);
+                    recyclerView.setAdapter(alarmAdapter);
+                    alarmViewModel = ViewModelProviders.of(this).get(AlarmViewModel.class);
+                    alarmViewModel.getAllAlarms().observe(this, new Observer<List<Alarm>>() {
+                        @Override
+                        public void onChanged(@Nullable final List<Alarm> alarms) {
+                            alarmAdapter.setAlarmArray(alarms);
+                        }
+                    });
 
                 } else if (resultCode == RESULT_CANCELED) {
                     alarmAdapter.notifyItemChanged(editAlarmPosition);
@@ -101,20 +120,51 @@ public class SetAlarms extends AppCompatActivity {
                 break;
             case EDIT_ALARM_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    Alarm editedAlarm = (Alarm) data.getSerializableExtra("editAlarm");
-
+                    // Gets alarm at swiped position
                     Alarm alarm = alarmAdapter.getAlarmAtPosition(editAlarmPosition);
 
-                    Intent i = new Intent(AlarmClock.ACTION_DISMISS_ALARM);
-                    i.putExtra(AlarmClock.ALARM_SEARCH_MODE_LABEL, alarm.alarmName);
-                    i.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-                    startActivity(i);
+                    // Deletes that alarm from the system clock and ViewModel
+                    String alarmName = alarm.getAlarmName() + " Medicines";
 
+                    Intent i = new Intent(AlarmClock.ACTION_DISMISS_ALARM);
+                    i.putExtra(AlarmClock.EXTRA_ALARM_SEARCH_MODE, AlarmClock.ALARM_SEARCH_MODE_LABEL);
+                    i.putExtra(AlarmClock.EXTRA_MESSAGE, alarmName);
+                    startActivity(i);
                     alarmViewModel.deleteAlarm(alarm);
                     alarmAdapter.notifyItemRemoved(editAlarmPosition);
 
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+
+                    // Gets alarm from EditAlarm activity
+                    Alarm editedAlarm = (Alarm) data.getSerializableExtra("editAlarm");
+
+                    // Adds alarm to system clock and ViewModel
+                    assert editedAlarm != null;
+                    String alarmLabel = editedAlarm.getAlarmName() + " Medicines";
+
+                    Intent alarmIntent = new Intent(AlarmClock.ACTION_SET_ALARM);
+                    alarmIntent.putExtra(AlarmClock.EXTRA_HOUR, editedAlarm.getAlarmHour());
+                    alarmIntent.putExtra(AlarmClock.EXTRA_MINUTES, editedAlarm.getAlarmMinute());
+                    alarmIntent.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+                    alarmIntent.putExtra(AlarmClock.EXTRA_MESSAGE, alarmLabel);
+                    startActivity(alarmIntent);
+
                     alarmList.add(editedAlarm);
                     alarmViewModel.insert(editedAlarm);
+
+                    alarmAdapter = new AlarmAdapter(this, (ArrayList<Alarm>) alarmList);
+                    recyclerView.setAdapter(alarmAdapter);
+                    alarmViewModel = ViewModelProviders.of(this).get(AlarmViewModel.class);
+                    alarmViewModel.getAllAlarms().observe(this, new Observer<List<Alarm>>() {
+                        @Override
+                        public void onChanged(@Nullable final List<Alarm> alarms) {
+                            alarmAdapter.setAlarmArray(alarms);
+                        }
+                    });
 
                 } else if (resultCode == RESULT_CANCELED) {
                     alarmAdapter.notifyItemChanged(editAlarmPosition);
@@ -167,8 +217,7 @@ public class SetAlarms extends AppCompatActivity {
                 if (direction == ItemTouchHelper.RIGHT) {
 
                     alarmAdapter.notifyItemChanged(position);
-                    AlertDialog.Builder deleteMedDialogBuilder =
-                            new AlertDialog.Builder(SetAlarms.this);
+                    AlertDialog.Builder deleteMedDialogBuilder = new AlertDialog.Builder(SetAlarms.this);
                     deleteMedDialogBuilder.setCancelable(true)
                             .setMessage("Are you sure you want to delete this alarm?")
                             .setPositiveButton("OK",
@@ -176,16 +225,16 @@ public class SetAlarms extends AppCompatActivity {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             Toast.makeText(SetAlarms.this, "Deleting " +
-                                                    alarm.getAlarmName() + " alarm", Toast.LENGTH_LONG).show();
+                                                    alarm.getAlarmName() + " Alarm", Toast.LENGTH_LONG).show();
 
                                             alarmViewModel.deleteAlarm(alarm);
                                             alarmAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
 
-                                            String alarmName = alarm.alarmName + " medicine";
+                                            String alarmName = alarm.getAlarmName() + " Medicines";
 
                                             Intent i = new Intent(AlarmClock.ACTION_DISMISS_ALARM);
-                                            i.putExtra(AlarmClock.ALARM_SEARCH_MODE_LABEL, alarmName);
-                                            i.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+                                            i.putExtra(AlarmClock.EXTRA_ALARM_SEARCH_MODE, AlarmClock.ALARM_SEARCH_MODE_LABEL);
+                                            i.putExtra(AlarmClock.EXTRA_MESSAGE, alarmName);
                                             startActivity(i);
                                         }
                                     });
@@ -201,8 +250,7 @@ public class SetAlarms extends AppCompatActivity {
 
                     alarmAdapter.notifyItemChanged(editAlarmPosition);
                     editAlarmPosition = viewHolder.getAdapterPosition();
-                    AlertDialog.Builder editMedDialogBuilder =
-                            new AlertDialog.Builder(SetAlarms.this);
+                    AlertDialog.Builder editMedDialogBuilder = new AlertDialog.Builder(SetAlarms.this);
                     editMedDialogBuilder.setCancelable(true)
                             .setMessage("Edit alarm?")
                             .setPositiveButton("OK",

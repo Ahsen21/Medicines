@@ -6,13 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".SetAlarms">
 
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/alarm_info"
+        android:textAlignment="center" />
+
     <LinearLayout
         android:id="@+id/heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="32dp"
+        android:layout_below="@id/info"
+        android:layout_marginTop="16dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp">
 

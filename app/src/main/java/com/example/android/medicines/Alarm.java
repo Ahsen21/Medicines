@@ -18,9 +18,18 @@ public class Alarm implements Serializable {
     @ColumnInfo(name = "alarmTime")
     String alarmTime;
 
-    public Alarm(@NonNull String alarmName, String alarmTime) {
+    @ColumnInfo(name = "alarmHour")
+    int alarmHour;
+
+    @ColumnInfo(name = "alarmMinute")
+    int alarmMinute;
+
+    public Alarm(@NonNull String alarmName, String alarmTime,
+                 int alarmHour, int alarmMinute) {
         this.alarmName = alarmName;
         this.alarmTime = alarmTime;
+        this.alarmHour = alarmHour;
+        this.alarmMinute = alarmMinute;
     }
 
     @NonNull
@@ -30,5 +39,13 @@ public class Alarm implements Serializable {
 
     public String getAlarmTime() {
         return this.alarmTime;
+    }
+
+    public int getAlarmHour() {
+        return alarmHour;
+    }
+
+    public int getAlarmMinute() {
+        return alarmMinute;
     }
 }
